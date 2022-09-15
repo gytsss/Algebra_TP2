@@ -3,7 +3,6 @@
 
 /*
 TODO:
-Producto cruz para el tercer vector.
 Calcular la posicion de los puntos en los demas vectores dependiendo de cual se ecuentra mas bajo en y.
 
 */
@@ -37,7 +36,6 @@ void CreateSecondVector();
 void CreateFirstVector();
 void InitVectors();
 
-void Close();
 void Draw();
 void Update();
 void Loop();
@@ -45,13 +43,14 @@ void Init();
 
 // -- Main. --
 int main() {
-
+	InitWindow(windowWidth, windowHeight, "Algebra EJ2");
 	Init();
 	Loop();
-	Close();
+	CloseWindow();
 
 	return 0;
 }
+
 
 void CreateThirdVector() {
 	vC.end.x = ((vA.end.y * vB.end.z) - (vA.end.z * vB.end.y));
@@ -74,7 +73,7 @@ void CreateFirstVector() {
 	vA.start.z = 0;
 	vA.end.x = GetRandomValue(1, 5);
 	vA.end.y = GetRandomValue(1, 5);
-	vA.end.z = GetRandomValue(1, 5);
+	vA.end.z = GetRandomValue(-5, -1);
 }
 
 void InitVectors() {
@@ -95,10 +94,6 @@ void InitVectors() {
 }
 
 // --
-
-void Close() {
-	CloseWindow();
-}
 
 void Draw() {
 	BeginDrawing();
@@ -130,9 +125,6 @@ void Loop() {
 }
 
 void Init() {
-	// Init ventana.
-	InitWindow(windowWidth, windowHeight, "Algebra EJ2");
-
 	// Init camara.
 	camera.position = Vector3{ 0.0f, 0.0f, 10.0f }; // Posicionada apuntando al angulo YX.
 	camera.target = Vector3{ 0.0f, 1.0f, 0.0f };
