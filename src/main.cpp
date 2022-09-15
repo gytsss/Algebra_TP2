@@ -4,8 +4,7 @@
 
 /*
 TODO:
-Calcular la posicion de los puntos en los demas vectores dependiendo de cual se ecuentra mas bajo en y.
-
+Ordenar codigo, remover hardcodeo.
 */
 
 using namespace std;
@@ -35,7 +34,8 @@ Vector3 p3;
 Camera3D camera;
 
 // -- Funciones. --
-float GetDistance();
+float CalculateTriangleArea(float a, float b, float c);
+float GetDistance(Vector3 point1, Vector3 point2);
 
 void CalculateArea();
 void SliceVectors();
@@ -62,15 +62,20 @@ int main() {
 	return 0;
 }
 
+float CalculateTriangleArea(float a, float b, float c) {
+	float s = ((a + b + c) / 2);
+	return sqrt(s * ((s - a) * (s - b) * (s - c)));
+}
+
 float GetDistance(Vector3 point1, Vector3 point2) {
 	
-	return (pow((point2.x - point1.x), 2) + (y2 - y1)2 + (z2 - z1)2) 1 / 2
+	return pow((pow((point2.x - point1.x), 2) + pow((point2.y - point1.y), 2) + pow((point2.z - point1.z), 2)), 0.5);
 }
 
 void CalculateArea() {
 	/*
 	p1
-	p3
+	p2
 	(0, 0, 0)
 	*/
 	Vector3 p0 = { 0, 0, 0 };
@@ -79,7 +84,18 @@ void CalculateArea() {
 	float d1 = GetDistance(p1, p3);
 	float d2 = GetDistance(p3, p0);
 	float d3 = GetDistance(p0, p1);
-	cout << "Distances: (" << d1 << ", " << d2 << ", " << d3 << ")\n";
+	cout << "Triangle A sides: (" << d1 << ", " << d2 << ", " << d3 << ")\n";
+	float area1 = CalculateTriangleArea(d1, d2, d3);
+	cout << "The area of the triangle is: " << area1 << "\n";
+	cout << "\n";
+	d1 = GetDistance(p1, p2);
+	d2 = GetDistance(p2, p0);
+	d3 = GetDistance(p0, p1);
+	cout << "Triangle A sides: (" << d1 << ", " << d2 << ", " << d3 << ")\n";
+	float area2 = CalculateTriangleArea(d1, d2, d3);
+	cout << "The area of the triangle is: " << area2 << "\n";
+	cout << "\n";
+	cout << "The sum of the piramid's 3 faces is: " << (area1 * 2) + area2 << "!\n";
 }
 
 void SliceVectors() {
@@ -140,18 +156,22 @@ void InitVectors() {
 	x.end.y = 0;
 	x.end.z = 0;
 
+	cout << "\n";
+
 	CreateFirstVector();
 	cout << "Vector A: (X: " << vA.end.x << ", Y: " << vA.end.y << ", Z: " << vA.end.z << ")\n";
 	CreateSecondVector();
 	cout << "Vector B: (X: " << vB.end.x << ", Y: " << vB.end.y << ", Z: " << vB.end.z << ")\n";
 	CreateThirdVector();
 	cout << "Vector C: (X: " << vC.end.x << ", Y: " << vC.end.y << ", Z: " << vC.end.z << ")\n";
-	
+	cout << "\n";
+
 	SliceVectors();
 	cout << "Point 1: (X: " << p1.x << ", Y: " << p1.y << ", Z: " << p1.z << ")\n";
 	cout << "Point 2: (X: " << p2.x << ", Y: " << p2.y << ", Z: " << p2.z << ")\n";
 	cout << "Point 3: (X: " << p3.x << ", Y: " << p3.y << ", Z: " << p3.z << ")\n";
 
+	cout << "\n";
 	CalculateArea();
 }
 
@@ -182,7 +202,7 @@ void Draw() {
 }
 
 void Update() {
-
+	UpdateCamera(&camera);
 }
 
 void Loop() {
@@ -192,11 +212,15 @@ void Loop() {
 
 void Init() {
 	// Init camara.
+	SetTargetFPS(30);
+
 	camera.position = Vector3{ 0.0f, 0.0f, 20.0f }; // Posicionada apuntando al angulo YX.
-	camera.target = Vector3{ 0.0f, 1.0f, 0.0f };
+	camera.target = Vector3{ 0.0f, 5.0f, 0.0f };
 	camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
 	camera.fovy = 45.0f;
 	camera.projection = CAMERA_PERSPECTIVE;
+
+	SetCameraMode(camera, CAMERA_ORBITAL);
 
 	InitVectors();
 }
