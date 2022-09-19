@@ -34,17 +34,20 @@ Vector3 p3;
 Camera3D camera;
 
 // -- Funciones. --
-float CalculateTriangleArea(float a, float b, float c);
-float GetDistance(Vector3 point1, Vector3 point2);
+float CalculateTriangleArea(float a, float b, float c); // Calcula el area de un triangulo pasandole la distancia de cada lado.
+float GetDistance(Vector3 point1, Vector3 point2); // Devuelve la distancia entre 2 puntos en 3D
 
-void CalculateArea();
-void SliceVectors();
+void CalculateArea(); // Se ocupa de calcular el perimetro y area de las caras.
+void SliceVectors(); // Agarra al vector mas bajo y corta a los demas a esa altura.
 
-void CreateThirdVector();
-void CreateSecondVector();
-void CreateFirstVector();
-void InitVectors();
+// Se crean los 3 vectores.
+void CreateThirdVector();  // Crea el tercer vector haciendo producto cruz de los anteriores dos vectores.
+void CreateSecondVector(); // Crea el segundo vector a 90 grados del primero.
+void CreateFirstVector(); // Crea el primer vector de forma random.
 
+void InitVectors(); // Se ocupa de inicializar los vectores.
+
+// Basico
 void Draw();
 void Update();
 void Loop();
@@ -73,13 +76,7 @@ float GetDistance(Vector3 point1, Vector3 point2) {
 }
 
 void CalculateArea() {
-	/*
-	p1
-	p2
-	(0, 0, 0)
-	*/
 	Vector3 p0 = { 0, 0, 0 };
-
 
 	float d1 = GetDistance(p1, p3);
 	float d2 = GetDistance(p3, p0);
@@ -91,7 +88,7 @@ void CalculateArea() {
 	d1 = GetDistance(p1, p2);
 	d2 = GetDistance(p2, p0);
 	d3 = GetDistance(p0, p1);
-	cout << "Triangle A sides: (" << d1 << ", " << d2 << ", " << d3 << ")\n";
+	cout << "Triangle B sides: (" << d1 << ", " << d2 << ", " << d3 << ")\n";
 	float area2 = CalculateTriangleArea(d1, d2, d3);
 	cout << "The area of the triangle is: " << area2 << "\n";
 	cout << "\n";
@@ -99,6 +96,7 @@ void CalculateArea() {
 }
 
 void SliceVectors() {
+	
 	if (vA.end.y < vB.end.y) {
 		p1 = vA.end;
 
@@ -110,7 +108,7 @@ void SliceVectors() {
 		p3.x = (vC.end.x / vC.end.y) * p2.y;
 		p3.z = (vC.end.z / vC.end.y) * p2.y;
 	}
-	else if (vB.end.y < vA.end.y) {
+	else /*if (vB.end.y < vA.end.y)*/ {
 		p1 = vB.end;
 
 		p2.y = p1.y;
@@ -142,9 +140,9 @@ void CreateFirstVector() {
 	vA.start.x = 0;
 	vA.start.y = 0;
 	vA.start.z = 0;
-	vA.end.x = 5;
-	vA.end.y = 4;
-	vA.end.z = -2;
+	vA.end.x = GetRandomValue(1, 5);
+	vA.end.y = GetRandomValue(1, 5);
+	vA.end.z = GetRandomValue(-5, -1);
 }
 
 void InitVectors() {
@@ -191,11 +189,9 @@ void Draw() {
 	DrawLine3D(vB.start, vB.end, PURPLE);
 	DrawLine3D(vC.start, vC.end, YELLOW);
 
-	if (p1.x > 0) {
-		DrawSphere(p1, 0.2, BLUE);
-		DrawSphere(p2, 0.2, BLUE);
-		DrawSphere(p3, 0.2, BLUE);
-	}
+	DrawSphere(p1, 0.2, BLUE);
+	DrawSphere(p2, 0.2, BLUE);
+	DrawSphere(p3, 0.2, BLUE);
 
 	EndMode3D();
 	EndDrawing();
