@@ -92,7 +92,14 @@ void CalculateArea() {
 	float area2 = CalculateTriangleArea(d1, d2, d3);
 	cout << "The area of the triangle is: " << area2 << "\n";
 	cout << "\n";
-	cout << "The sum of the piramid's 3 faces is: " << (area1 * 2) + area2 << "!\n";
+	d1 = GetDistance(p2, p3);
+	d2 = GetDistance(p3, p0);
+	d3 = GetDistance(p0, p2);
+	cout << "Triangle C sides: (" << d1 << ", " << d2 << ", " << d3 << ")\n";
+	float area3 = CalculateTriangleArea(d1, d2, d3);
+	cout << "The area of the triangle is: " << area3 << "\n";
+	cout << "\n";
+	cout << "The sum of the piramid's 3 faces is: " << (area1 + area2 + area3) << "!\n";
 }
 
 void SliceVectors() {
