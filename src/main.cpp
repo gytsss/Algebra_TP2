@@ -3,8 +3,7 @@
 #include "raylib.h"
 
 /*
-TODO:
-Ordenar codigo, remover hardcodeo.
+[!] COMPILAR PARA 32 BITS
 */
 
 using namespace std;
@@ -66,12 +65,19 @@ int main() {
 }
 
 float CalculateTriangleArea(float a, float b, float c) {
+	/*
+	Resuelto usando la formula de Heron
+	https://en.wikipedia.org/wiki/Heron%27s_formula
+	*/
 	float s = ((a + b + c) / 2);
 	return sqrt(s * ((s - a) * (s - b) * (s - c)));
 }
 
 float GetDistance(Vector3 point1, Vector3 point2) {
-	
+	/*
+	Teorema de Pitagoras
+	https://en.wikipedia.org/wiki/Euclidean_distance
+	*/
 	return pow((pow((point2.x - point1.x), 2) + pow((point2.y - point1.y), 2) + pow((point2.z - point1.z), 2)), 0.5);
 }
 
