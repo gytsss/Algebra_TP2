@@ -10,7 +10,8 @@ using namespace std;
 
 // -- Structs/Enums. --
 
-struct Vector {
+struct Vector
+{
 	Vector3 start;
 	Vector3 end;
 };
@@ -42,7 +43,7 @@ void SliceVectors(); // Agarra al vector mas bajo y corta a los demas a esa altu
 // Se crean los 3 vectores.
 void CreateThirdVector();  // Crea el tercer vector haciendo producto cruz de los anteriores dos vectores.
 void CreateSecondVector(); // Crea el segundo vector a 90 grados del primero.
-void CreateFirstVector(); // Crea el primer vector de forma random.
+void CreateFirstVector();  // Crea el primer vector de forma random.
 
 void InitVectors(); // Se ocupa de inicializar los vectores.
 
@@ -67,7 +68,6 @@ int main() {
 float CalculateTriangleArea(float a, float b, float c) {
 	/*
 	Resuelto usando la formula de Heron
-	https://en.wikipedia.org/wiki/Heron%27s_formula
 	*/
 	float s = ((a + b + c) / 2);
 	return sqrt(s * ((s - a) * (s - b) * (s - c)));
@@ -75,8 +75,7 @@ float CalculateTriangleArea(float a, float b, float c) {
 
 float GetDistance(Vector3 point1, Vector3 point2) {
 	/*
-	Teorema de Pitagoras
-	https://en.wikipedia.org/wiki/Euclidean_distance
+	Teorema de Pitagoras / Euclidean distance
 	*/
 	return pow((pow((point2.x - point1.x), 2) + pow((point2.y - point1.y), 2) + pow((point2.z - point1.z), 2)), 0.5);
 }
@@ -109,7 +108,7 @@ void CalculateArea() {
 }
 
 void SliceVectors() {
-	
+
 	if (vA.end.y < vB.end.y) {
 		p1 = vA.end;
 
@@ -135,9 +134,11 @@ void SliceVectors() {
 }
 
 void CreateThirdVector() {
-	vC.end.x = ((vA.end.y * vB.end.z) - (vA.end.z * vB.end.y));
-	vC.end.y = ((vA.end.z * vB.end.x) - (vA.end.x * vB.end.z));
-	vC.end.z = ((vA.end.x * vB.end.y) - (vA.end.y * vB.end.x));
+	//Usamos el producto cruz para crear el 3er vector a 90 grados de los dos vectores ya existentes
+
+	vC.end.x = ((vA.end.y * vB.end.z) - (vA.end.z * vB.end.y));  //Tapas la columna x para averiguarlo 
+	vC.end.y = ((vA.end.z * vB.end.x) - (vA.end.x * vB.end.z));  //Tapas la columna y para averiguarlo 
+	vC.end.z = ((vA.end.x * vB.end.y) - (vA.end.y * vB.end.x));  //Tapas la columna z para averiguarlo 
 }
 
 void CreateSecondVector() {
